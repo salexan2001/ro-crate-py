@@ -25,6 +25,8 @@ from collections.abc import MutableMapping
 from dateutil.parser import isoparse
 from .. import vocabs
 
+import uuid
+
 
 class Entity(MutableMapping):
 
@@ -104,7 +106,9 @@ class Entity(MutableMapping):
         values = value if isinstance(value, list) else [value]
         for v in values:
             if isinstance(v, dict) and "@id" not in v:
-                raise ValueError(f"no @id in {v}")
+                v["@id"] = uuid.uuid4()
+                print("Generating dummy id: {}".format(v["@id"]))
+                # raise ValueError(f"no @id in {v}")
         ref_values = [{"@id": _.id} if isinstance(_, Entity) else _ for _ in values]
         self._jsonld[key] = ref_values if isinstance(value, list) else ref_values[0]
 
