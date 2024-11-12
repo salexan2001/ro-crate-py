@@ -106,7 +106,7 @@ class Entity(MutableMapping):
         values = value if isinstance(value, list) else [value]
         for v in values:
             if isinstance(v, dict) and "@id" not in v:
-                v["@id"] = uuid.uuid4()
+                v["@id"] = str(uuid.uuid4())
                 print("Generating dummy id: {}".format(v["@id"]))
                 # raise ValueError(f"no @id in {v}")
         ref_values = [{"@id": _.id} if isinstance(_, Entity) else _ for _ in values]
